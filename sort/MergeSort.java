@@ -1,13 +1,15 @@
-package mergeSort;
+package sort;
 
-public class MergeSort {
-	public int[] arr;
+public class MergeSort extends Sort{
+	public MergeSort(){
+		System.out.println("Merge Sort");
+	}
 	
-	public void sort(int b,int e){
+	public void mergesort(int b,int e){
 		if(b<e){
 			int m=(b+e)/2;
-			sort(b,m);
-			sort(m+1,e);
+			mergesort(b,m);
+			mergesort(m+1,e);
 			merge(b,m,e);
 		}
 	}
@@ -35,12 +37,9 @@ public class MergeSort {
 		}
 	}
 	
-	public static void main(String[] args){
-		MergeSort ms=new MergeSort();
-		int[] arr = {8,6,1,3,7,10,2};
-		ms.arr=arr;
-		ms.sort(0, arr.length-1);
-		for(int i=0;i<arr.length;i++)
-			System.out.println(arr[i]);
+	@Override
+	public void sort() {
+		mergesort(0, arr.length-1);
+		print();
 	}
 }
