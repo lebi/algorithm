@@ -40,5 +40,10 @@ public abstract class Sort {
 		int[] arr5={5,8,6,2,9,10,1,0};
 		sort.arr=arr5;
 		sort.sort();
+
+		sort=new HeapSort();
+		int[] arr6={5,8,6,2,9,10,1,0};
+		sort.arr=arr6;
+		sort.sort();
 	}
 }
