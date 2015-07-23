@@ -17,13 +17,28 @@ public abstract class Sort {
 	
 	public static void main(String[] args){
 		Sort sort=new quickSort();
-		int[] arr={5,8,6,2,9,10,1,0};
-		sort.arr=arr;
+		int[] arr1={5,8,6,2,9,10,1,0};
+		sort.arr=arr1;
 		sort.sort();
 		
-
 		sort=new MergeSort();
-		sort.arr=arr;
+		int[] arr2={5,8,6,2,9,10,1,0};
+		sort.arr=arr2;
+		sort.sort();
+		
+		sort=new BubbleSort();
+		int[] arr3={5,8,6,2,9,10,1,0};
+		sort.arr=arr3;
+		sort.sort();
+		
+		sort=new ChooseSort();
+		int[] arr4={5,8,6,2,9,10,1,0};
+		sort.arr=arr4;
+		sort.sort();
+
+		sort=new InsertSort();
+		int[] arr5={5,8,6,2,9,10,1,0};
+		sort.arr=arr5;
 		sort.sort();
 	}
 }
