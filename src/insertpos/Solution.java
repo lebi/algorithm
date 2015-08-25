@@ -14,4 +14,5 @@ public class Solution {
         else if(i==nums.length-1&&nums[i]<target) return nums.length;
         return i;
     }
+    
 }
