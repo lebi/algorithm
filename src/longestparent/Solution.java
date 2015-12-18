@@ -16,7 +16,6 @@ public class Solution {
         		}else {
         			stack.pop();
         			int n=start;
-//        			if(start!=-1)
         				if(!stack.isEmpty())
         					n=start>stack.peek()?start:stack.peek();
         			count=i-n;
