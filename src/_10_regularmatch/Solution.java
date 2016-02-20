@@ -22,6 +22,7 @@ public class Solution {
     	if(p.charAt(1)!='*'){
         	if(p.charAt(0)=='.'||p.charAt(0)==s.charAt(0))
         		return isMatch(s.substring(1), p.substring(1));
+        	else return false;
     	}
     	if(p.charAt(0)=='.'||p.charAt(0)==s.charAt(0))
     		if(isMatch(s, p.substring(2)))
