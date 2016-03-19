@@ -19,7 +19,6 @@ public class Solution {
 					List temp=new LinkedList(list);
 					temp.add(i, nums[j]);
 					store.add(temp);
-//					System.out.println(list);
 					System.out.println(temp);
     			}
     		}
