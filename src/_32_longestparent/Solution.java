@@ -5,12 +5,13 @@ import java.util.Stack;
 
 public class Solution {
     public int longestValidParentheses(String s) {
-    	Stack<Integer> stack=new Stack();
+    	char[] arr=s.toCharArray();
+    	Stack<Integer> stack=new Stack<Integer>();
     	int count=0,max=0,start=-1;
         for(int i=0;i<s.length();i++){
-        	if(s.charAt(i)=='(')
+        	if(arr[i]=='(')
         		stack.push(i);
-        	if(s.charAt(i)==')'){
+        	if(arr[i]==')'){
         		if(stack.isEmpty()){
         			start=i;
         		}else {
@@ -25,9 +26,8 @@ public class Solution {
         }
         return max;
     }
-    
     public static void main(String[] a){
     	Solution so=new Solution();
-    	System.out.println(so.longestValidParentheses("(()"));
+    	System.out.println(so.longestValidParentheses("((((((((((((((((((((((((((((((((((((((((((((((((((((("));
     }
 }

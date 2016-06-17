@@ -1,37 +1,45 @@
 package _25_reversenodek;
 
-class ListNode {
-	int val;
-	ListNode next;
-	ListNode(int x) { val = x; }
-}
+import util.ListNode;
+
+
 public class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode ex,before=head,after=head,store,temp;
-        if(k==1)return head;
 
-        head=before;
-        temp=before;
-        ex=after;
-        while(before!=null){
-        	store=before;        
-        	for(int i=1;i<k;i++){
-        		if(before==null||before.next==null) return head;
-        		else before=before.next;
-        	}
-        	before=store;
-        	for(int i=1;i<k;i++){
-        		before=before.next;
-        		temp.next=ex;
-        		ex=temp;
-        		temp=before;
-        	}
-        	after.next=store;
-        	if(before!=null){
-        		after.next=before;
-        		after=store;
-        	}
+        if(k==1||head==null)return head;
+        ListNode start=head,end=head,next,it,itnext,itprev;
+        it=head;
+        for(int i=0;i<k-1;i++){
+        	it=it.next;
+        	if(it==null)return head;
         }
-        return head;
+        head=it;
+        end=head;
+        while(true){
+        	itprev=start;
+			it=start.next;
+			next=end.next;
+    		for(int i=0;i<k-1;i++){
+    			itnext=it.next;
+    			it.next=itprev;
+    			itprev=it;
+    			it=itnext;
+    		}
+        	end=next;
+        	for(int i=0;i<k-1;i++){
+        		if(end==null||end.next==null) {
+        			start.next=next;
+        			return head;
+        		}
+        		end=end.next;
+        	}
+    		start.next=end;
+    		start=next;
+        }
+    }
+    
+    public static void main(String[] args){
+    	Solution so=new Solution();
+    	so.reverseKGroup(new ListNode(new int[]{1,2,4}), 2).print();
     }
 }
