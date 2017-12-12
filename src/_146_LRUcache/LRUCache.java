@@ -1,131 +1,100 @@
 package _146_LRUcache;
 
-import sun.misc.FDBigInteger;
 
-import javax.swing.text.AbstractDocument;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 public class LRUCache {
 	private Set<Integer> keys;
 	private int capacity;
-	private int len=0;
-	LRUNode head;
+	private int len = 0;
+	Node head;
+	Node tail;
+	Map<Integer, Node> map = new HashMap<>();
 
     public LRUCache(int capacity) {
-        keys=new HashSet<>();
         this.capacity=capacity;
     }
     
     public int get(int key) {
-		if (!keys.contains(key))
-        	return -1;
-		int value;
-		if (head.key==key){
-			return head.value;
-		}
-		LRUNode prev=head;
-		for (LRUNode it=prev.next;it!=null;prev=it,it=it.next){
-			if (it.key==key){
-				value=it.value;
-				prev.next=it.next;
-				it.next=head;
-				head=it;
-				return value;
-			}
-		}
-		return -1;
+		Node node;
+		if ((node = getNode(key)) == null)
+			return -1;
+		return node.value;
     }
+
+	public Node getNode(int key) {
+		Node node = map.get(key);
+		if (node != null) {
+			if (node == tail)
+				return node;
+			deleteNode(node);
+			addLast(node);
+		}
+		return node;
+	}
+
+	private void addLast(Node n){
+		if (tail == null){
+			head = n;
+		}else {
+			tail.next = n;
+		}
+		n.prev = tail;
+		n.next = null;
+		tail = n;
+	}
+
+	private void deleteNode(Node node){
+		if (node == head){
+			head = node.next;
+			head.prev = null;
+		}else {
+			node.prev.next = node.next;
+			node.next.prev = node.prev;
+		}
+	}
     
-    public void set(int key, int value) {
-		if (capacity<=0) return;
-		if (!keys.contains(key)){
-			keys.add(key);
-			if (len<capacity){
-				LRUNode node=new LRUNode(key,value);
-				node.next=head;
-				head=node;
-				len++;
-				return;
-			}else {
-				LRUNode it;
-				for (it=head;it.next!=null;it=it.next){
-				}
-				keys.remove(it.key);
-				it=null;
-				LRUNode node=new LRUNode(key,value);
-				node.next=head;
-				head=node;
-				return;
-			}
-		}else{
-			if (head.key==key){
-				head.value=value;
-				return;
-			}
-
-			LRUNode prev=head;
-			for (LRUNode it=prev.next;it!=null;prev=it,it=it.next){
-				if (it.key==key){
-					it.value=value;
-					prev.next=it.next;
-					it.next=head;
-					head=it;
-					return;
-				}
-			}
+    public void put(int key, int value) {
+		Node node;
+		if ((node = getNode(key))!= null ){
+			node.value = value;
+			return;
 		}
-
-//    	if(map.containsKey(key)){
-//    		map.get(key).value=value;
-//    		map.get(key).count=0;
-//    	}else{
-//    		if(len<capacity){
-//    			map.put(key, new LRUData(value));
-//    			len++;
-//    		}else{
-//    			Set<Integer> set=map.keySet();
-//    			Iterator<Integer> it=set.iterator();
-//    			while(it.hasNext()){
-//    				int k=it.next();
-//    				if(map.get(k).count==capacity){
-//    					map.remove(k);
-//    					break;
-//    				}
-//    			}
-//    			map.put(key, new LRUData(value));
-//    		}
-//    	}
-//		Set<Integer> set=map.keySet();
-//		Iterator<Integer> it=set.iterator();
-//		while(it.hasNext()){
-//			map.get(it.next()).add(capacity);
-//		}
+		if (capacity == 0)
+			return;
+		if (capacity == len){
+			//delete first
+			map.remove(head.key);
+			if (head == tail){
+				head = null;
+				tail = null;
+			}else {
+				head.next.prev = null;
+				head = head.next;
+			}
+		}else
+			len ++;
+		node = new Node(key, value);
+		addLast(node);
+		map.put(key, node);
     }
-}
 
-class LRUData{
-	int count=0;
-	int value;
-	
-	public LRUData(int value){
-		this.value=value;
-	}
-	
-	void add(int cap){
-		if(count<cap) count++;
-	}
-}
+	class Node{
+		private Node prev;
+		private Node next;
+		private int key;
+		private int value;
 
-class LRUNode{
-	int key;
-	int value;
-	LRUNode next;
-	public LRUNode(int key,int value){
-		this.key=key;
-		this.value=value;
+		public Node(int key, int value) {
+			this.key = key;
+			this.value = value;
+		}
+	}
+
+	public static void main(String[] args) {
+		LRUCache cache = new LRUCache(2);
+		cache.put(1,1);
 	}
 }
